@@ -15,6 +15,7 @@ namespace App\Controllers;
  */
 
 use CodeIgniter\Controller;
+use Parse\ParseClient;
 
 class BaseController extends Controller
 {
@@ -41,6 +42,14 @@ class BaseController extends Controller
 		//--------------------------------------------------------------------
 		// E.g.:
 		// $this->session = \Config\Services::session();
+
+
+		// Initializes with the <APPLICATION_ID>, <REST_KEY>, and <MASTER_KEY>
+		$appid = "ACuVoInq1z9adTHEuIY4iJUR3rjp2I7d0lFC2LJI";
+		$rkey = "lMJ4NNpHWXvTBiFNWqbut35lXClUiLHGpDN3jFgH";
+		$mkey = "erzImShLNBP9sAPoVZWmUcilqiX2pUNbXeVnVMna";
+		ParseClient::initialize( $appid,$rkey,$mkey );
+		ParseClient::setServerURL('https://parseapi.back4app.com/', '/');
 	}
 
 }
