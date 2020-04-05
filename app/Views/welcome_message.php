@@ -242,6 +242,9 @@
 	<p>The corresponding controller for this page can be found at:</p>
 
 	<pre><code>app/Controllers/Home.php</code></pre>
+	<?php 
+//Access them like so
+echo $title.$heading.$message; ?>
 
 </section>
 

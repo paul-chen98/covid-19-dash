@@ -4,58 +4,63 @@ use Parse\ParseQuery;
 
 class Home extends BaseController
 {
+	
 	public function index()
 	{
 		//return view('welcome_message');
+		$title = "COVID-19 Updates: PH";
+
+		$data = array(
+		    'title' => 'My Title',
+		    'heading' => 'My Heading',
+		    'message' => 'My Message',
+
+		);
+
+		//echo json_encode($data);
+		//echo view('welcome_message', $data);
+
 		$query = new ParseQuery("Coronaviruscases_Covid19Cases");
 		try {
 
 			$query->equalTo("countryName", "Philippines");
 			$query->ascending("countryName");
 			$results = $query->find();
-			echo "Successfully retrieved " . count($results) . " count.";
-			// Do something with the returned ParseObject values
+
+			$datas = array();
 			$new_case = 0;
 			for ($i = 0; $i < count($results); $i++) 
 			{
-			  $object = $results[$i];
-			 // echo $object->getObjectId() . ' - ' . $object->get('cases');
+				$object = $results[$i];
+				 // echo $object->getObjectId() . ' - ' . $object->get('cases');
 
-			  $case = $object->get('cases');
- 				echo  "<br>";
-			  echo $object->get('countryName') . "<br>";
-			  echo $object->get('cases') . "<br>";
-			  echo "new case : ";
-			  if($new_case==0)
-			  {
-			  	echo $new_case;
-			  	echo "<br>";
-			  }
-			  else
-			  {
-			  	echo $case - $new_case;
-			  	echo "<br>";
-			  	$new_case = $case;
-			  }
-			  $new_case = $case;
-			  echo $object->get('date')->format("Y-m-d") . "<br>";
-			  echo  "<br>";
+				$countryName = $object->get('countryName');
+				$date = $object->get('date')->format("F j, Y");
+				$cases = $object->get('cases');
+				$recovered = $object->get('recovered');
+				$deaths = $object->get('deaths');
+				//$updatedAt = $object->get('updatedAt')->format("Y-m-d");
+
+				$datas[$i]= array(
+								'countryName' => $countryName,
+								'date' 	  => $date,
+								'cases'	  => $cases,
+								'recovered' => $recovered,
+								'deaths' => $deaths
+								//'updatedAt' => $updatedAt
+							);
 			}
-			  //$myCustomObject = $query->get("gL6lGKRjyA");
-			  // The object was retrieved successfully.
 
-			  // To get attributes, you can use the "get" method, providing the attribute name:
-			  // $date = $myCustomObject->get("date");
-			  // $countryName = $myCustomObject->get("countryName");
-			  // $deaths = $myCustomObject->get("deaths");
-			  // $cases = $myCustomObject->get("cases");
-			  // $recovered = $myCustomObject->get("recovered");
-			  // $countryPointer = $myCustomObject->get("countryPointer");
+			//print_r($datas);
 
-			  echo "done";
+			//echo $parser->setData($datas)->render('index');
+			//print_r($results);
+			//echo "Successfully retrieved " . count($results) . " count.";
+			echo view('templates/header', $data = ['title' => $title] );
+			echo view('index', ['data' => $datas]);
 
 		} catch (ParseException $ex) {
-			print_r($ex);
+			console.log($ex);
 		  // The object was not retrieved successfully.
 		  // error is a ParseException with an error code and message.
 		}
