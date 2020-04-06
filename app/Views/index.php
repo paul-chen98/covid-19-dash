@@ -5,11 +5,60 @@
 </head>
 
 <body>
+<?php
+
+	if (! empty($data) && is_array($data))
+	{
+		$max = count($data)-1;
+	 	$max_date = $data[$max]['date'];
+	 	$max_cases = $data[$max]['cases'];
+	 	$max_deaths = $data[$max]['deaths'];
+	 	$max_recovered = $data[$max]['recovered'];
+	}
+
+	function show( $txt )
+	{
+		if(empty($txt) || $txt == "")
+		{
+			return "N/A";
+		}
+		else
+		{
+			return $txt;
+		}
+	}
+?>
 <div class="container-fluid">
 	<div class="row my-4">
-		<div class="col-md-10 mx-auto">
+		<div class="col-md-9">
 			<h2>Confirmed Cases</h2>
 			<canvas id="line-graph"></canvas>
+		</div>
+		<div class="col-md-3">
+			<h2 class="text-center"><?php echo show($max_date); ?></h2>
+			<div class="card text-white bg-dark mb-3 mx-auto" style="max-width: 18rem;">
+			  <!-- <div class="card-header">Header</div> -->
+			  <div class="card-body">
+			    <h1 class="card-title text-center"><?php echo show($max_cases); ?></h1>
+			    <p class="card-text text-center"><?php echo show("Confirmed cases"); ?></p>
+			  </div>
+			</div>
+
+			<div class="card text-white bg-danger mb-3 mx-auto" style="max-width: 18rem;">
+			  <!-- <div class="card-header">Header</div> -->
+			  <div class="card-body">
+			    <h1 class="card-title text-center"><?php echo show($max_deaths); ?></h1>
+			    <p class="card-text text-center"><?php echo show("Death cases"); ?></p>
+			  </div>
+			</div>
+
+			<div class="card text-white bg-success mb-3 mx-auto" style="max-width: 18rem;">
+			  <!-- <div class="card-header">Header</div> -->
+			  <div class="card-body">
+			    <h1 class="card-title text-center"><?php echo show($max_recovered); ?></h1>
+			    <p class="card-text text-center"><?php echo show("Recovered cases"); ?></p>
+			  </div>
+			</div>
 		</div>
 	</div>
 
